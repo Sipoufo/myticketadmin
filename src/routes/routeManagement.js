@@ -12,6 +12,9 @@ import AccountUserComponent from "../components/users/accountUserComponent";
 import EventsUserComponent from "../components/users/eventsUserComponent";
 import UserComponent from "../components/users/userComponent";
 import TicketsUserComponent from "../components/users/ticketsUserComponent";
+import Setting from "../pages/other/setting";
+import AccountSettingComponent from "../components/setting/accountSettingComponent";
+import PasswordSettingComponent from "../components/setting/passwordSettingComponent";
 
 const RouteManagement = () => {
     return (
@@ -37,6 +40,10 @@ const RouteManagement = () => {
                             element={<TicketsUserComponent />}
                         />
                     </Route>
+                </Route>
+                <Route path="/setting/" element={<Setting />}>
+                    <Route path="account" element={<AccountSettingComponent />} />
+                    <Route path="password" element={<PasswordSettingComponent />} />
                 </Route>
                 {/* <Route path="/user/:idUser/" element={<UserDetail />}>
                     <Route index element={<AccountUserComponent />} />

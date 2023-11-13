@@ -47,7 +47,7 @@ const NavBarComponent = () => {
                         name={"Notification"}
                     />
                     <ButtonNavBarWidget
-                        link={""}
+                        link={"/setting/account"}
                         icon={<AiOutlineSetting />}
                         name={"Setting"}
                     />
