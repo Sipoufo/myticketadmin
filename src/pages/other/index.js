@@ -10,10 +10,12 @@ const IndexOther = () => {
                 {/* nav Bar */}
                 <NavBarComponent />
                 {/* body */}
-                <div className="flex flex-col flex-grow">
+                <div className="flex flex-col flex-grow overflow-auto">
                     <HeaderComponent />
+                    <div className="flex flex-grow px-4 py-6">
+                        <Outlet />
+                    </div>
                 </div>
-                <Outlet />
             </div>
         </div>
     );

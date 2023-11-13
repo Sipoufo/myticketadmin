@@ -17,7 +17,7 @@ const NavBarComponent = () => {
                 </h1>
                 <div className="flex flex-col">
                     <ButtonNavBarWidget
-                        link={""}
+                        link={"/"}
                         icon={<SiWindows11 />}
                         name={"Overview"}
                     />
@@ -32,7 +32,7 @@ const NavBarComponent = () => {
                         name={"Transaction"}
                     />
                     <ButtonNavBarWidget
-                        link={""}
+                        link={"/users"}
                         icon={<HiOutlineUsers />}
                         name={"Users"}
                     />

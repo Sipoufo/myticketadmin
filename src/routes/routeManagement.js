@@ -5,6 +5,13 @@ import { Route, Routes } from "react-router-dom";
 // import ForgetPassword from "../pages/authentication/forgetPassword";
 // import ResetPassword from "../pages/authentication/resetPassword";
 import IndexOther from "../pages/other";
+import Users from "../pages/other/users";
+import Overview from "../pages/other/overview";
+import UserDetail from "../pages/other/userDetail";
+import AccountUserComponent from "../components/users/accountUserComponent";
+import EventsUserComponent from "../components/users/eventsUserComponent";
+import UserComponent from "../components/users/userComponent";
+import TicketsUserComponent from "../components/users/ticketsUserComponent";
 
 const RouteManagement = () => {
     return (
@@ -16,10 +23,28 @@ const RouteManagement = () => {
                 <Route path="/resetPassword/:token" element={<ResetPassword />} />
             </Route> */}
             <Route path="/" element={<IndexOther />}>
-                
+                <Route index element={<Overview />} />
+                <Route path="/users/" element={<Users />}>
+                    <Route index element={<UserComponent />} />
+                    <Route path=":idUser/" element={<UserDetail />}>
+                        <Route index element={<AccountUserComponent />} />
+                        <Route
+                            path="events"
+                            element={<EventsUserComponent />}
+                        />
+                        <Route
+                            path="tickets"
+                            element={<TicketsUserComponent />}
+                        />
+                    </Route>
+                </Route>
+                {/* <Route path="/user/:idUser/" element={<UserDetail />}>
+                    <Route index element={<AccountUserComponent />} />
+                    <Route path="events" element={<EventsUserComponent />} />
+                </Route> */}
             </Route>
         </Routes>
-    )
-}
+    );
+};
 
 export default RouteManagement;
