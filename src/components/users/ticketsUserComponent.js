@@ -1,4 +1,5 @@
 import React from "react";
+import PaginationWidget from "../../widgets/paginationWidget";
 // import { useParams } from "react-router-dom";
 
 const TicketsUserComponent = () => {
@@ -21,6 +22,9 @@ const TicketsUserComponent = () => {
                             End Event
                         </th>
                         <th scope="col" class="px-6 py-3 w-2/12">
+                            Price
+                        </th>
+                        <th scope="col" class="px-6 py-3 w-2/12">
                             State
                         </th>
                     </tr>
@@ -40,7 +44,11 @@ const TicketsUserComponent = () => {
                             12/12/2023
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap w-2/12">
-                            12/12/2023</td>
+                            12/12/2023
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap w-2/12">
+                            2000
+                        </td>
                         <td class="px-6 py-4 whitespace-nowrap w-2/12">
                             <span className="px-3 py-1 rounded-lg bg-green-500 text-white">
                                 Now
@@ -49,6 +57,7 @@ const TicketsUserComponent = () => {
                     </tr>
                 </tbody>
             </table>
+            <PaginationWidget />
         </div>
     );
 };

@@ -1,5 +1,5 @@
 import React from "react";
-import ButtonNavBarWidget from "../widgets/buttonNavBar";
+import ButtonNavBarWidget from "../widgets/buttonNavBarWidget";
 import { SiWindows11 } from "react-icons/si";
 import { IoWalletOutline, IoLogOut } from "react-icons/io5";
 import { VscArrowSwap } from "react-icons/vsc";

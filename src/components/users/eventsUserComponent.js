@@ -1,4 +1,5 @@
 import React from "react";
+import PaginationWidget from "../../widgets/paginationWidget";
 // import { useParams } from "react-router-dom";
 
 const EventsUserComponent = () => {
@@ -48,6 +49,7 @@ const EventsUserComponent = () => {
                     </tr>
                 </tbody>
             </table>
+            <PaginationWidget />
         </div>
     );
 };
