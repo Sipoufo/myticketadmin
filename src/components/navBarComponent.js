@@ -1,7 +1,7 @@
 import React from "react";
 import ButtonNavBarWidget from "../widgets/buttonNavBarWidget";
 import { SiWindows11 } from "react-icons/si";
-import { IoWalletOutline, IoLogOut } from "react-icons/io5";
+import { IoLogOut } from "react-icons/io5";
 import { VscArrowSwap } from "react-icons/vsc";
 import { AiOutlineSetting } from "react-icons/ai";
 import { HiOutlineUsers } from "react-icons/hi2";
@@ -21,11 +21,11 @@ const NavBarComponent = () => {
                         icon={<SiWindows11 />}
                         name={"Overview"}
                     />
-                    <ButtonNavBarWidget
+                    {/* <ButtonNavBarWidget
                         link={""}
                         icon={<IoWalletOutline />}
                         name={"Balances"}
-                    />
+                    /> */}
                     <ButtonNavBarWidget
                         link={""}
                         icon={<VscArrowSwap />}
@@ -42,7 +42,7 @@ const NavBarComponent = () => {
                         name={"Admin"}
                     />
                     <ButtonNavBarWidget
-                        link={""}
+                        link={"/notification"}
                         icon={<BsBellFill />}
                         name={"Notification"}
                     />

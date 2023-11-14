@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
-import { FaPlus } from "react-icons/fa6";
 import { IoIosArrowDown } from "react-icons/io";
 import PaginationWidget from "../../widgets/paginationWidget";
 
@@ -58,13 +57,13 @@ const UserComponent = () => {
                             </form>
                         </div>
                         <div class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
-                            <button
+                            {/* <button
                                 type="button"
                                 class="flex items-center justify-center text-white bg-primary hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 focus:outline-none"
                             >
                                 <FaPlus className="text-lg text-white mr-2" />
                                 Add
-                            </button>
+                            </button> */}
                             <div class="flex justify-end items-start space-x-3 w-full md:w-auto">
                                 <button
                                     id="actionsDropdownButton"

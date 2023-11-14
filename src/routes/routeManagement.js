@@ -15,6 +15,7 @@ import TicketsUserComponent from "../components/users/ticketsUserComponent";
 import Setting from "../pages/other/setting";
 import AccountSettingComponent from "../components/setting/accountSettingComponent";
 import PasswordSettingComponent from "../components/setting/passwordSettingComponent";
+import Notification from "../pages/other/notification";
 
 const RouteManagement = () => {
     return (
@@ -45,6 +46,7 @@ const RouteManagement = () => {
                     <Route path="account" element={<AccountSettingComponent />} />
                     <Route path="password" element={<PasswordSettingComponent />} />
                 </Route>
+                <Route path="/notification" element={<Notification />} />
                 {/* <Route path="/user/:idUser/" element={<UserDetail />}>
                     <Route index element={<AccountUserComponent />} />
                     <Route path="events" element={<EventsUserComponent />} />
