@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import InputWidget from "../../widgets/inputWidget";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import ButtonWidget from "../../widgets/buttonWidget";
 
 const ResetPassword = () => {

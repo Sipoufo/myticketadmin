@@ -1,10 +1,10 @@
 import React from "react";
 
-const ButtonWidget = ({ name }) => {
+const ButtonWidget = ({ name, color }) => {
     return (
         <button
             type="submit"
-            className="font-medium px-4 py-3 bg-primary text-white rounded-lg"
+            className={`${color ? color : "bg-primary"} w-full font-medium px-4 py-3 text-white rounded-lg`}
         >
             {name}
         </button>

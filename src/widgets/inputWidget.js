@@ -1,6 +1,15 @@
 import React from "react";
 
-const InputWidget = ({ label, type, name, placeholder, value, onChange }) => {
+const InputWidget = ({
+    label,
+    type,
+    name,
+    placeholder,
+    value,
+    onChange,
+    disable = false,
+    isRequired = false,
+}) => {
     return (
         <div className="w-full flex flex-col gap-1">
             <label>{label}</label>
@@ -11,6 +20,8 @@ const InputWidget = ({ label, type, name, placeholder, value, onChange }) => {
                 placeholder={placeholder}
                 value={value}
                 onChange={onChange}
+                disabled={disable}
+                required={isRequired}
             />
         </div>
     );
