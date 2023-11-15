@@ -5,7 +5,7 @@ import PaginationWidget from "../../widgets/paginationWidget";
 const TicketsUserComponent = () => {
     // const { idUser } = useParams();
     return (
-        <div class="w-full overflow-scroll sm:rounded-lg bg-white">
+        <div class="w-full overflow-auto sm:rounded-lg bg-white">
             <table class="w-full text-sm text-left text-fourth">
                 <thead class="text-xs text-seventh uppercase bg-secondary">
                     <tr>
