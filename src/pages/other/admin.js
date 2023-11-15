@@ -1,39 +1,40 @@
 import React, { useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { IoIosArrowDown } from "react-icons/io";
+import { FaPlus } from "react-icons/fa6";
 import PaginationWidget from "../../widgets/paginationWidget";
 
-const UserComponent = () => {
+const Administration = () => {
     const [seeState, setSeeState] = useState(false);
 
     return (
         <div className="flex flex-col gap-8 w-full">
-            {/* Users Statistics */}
+            {/* Administrations Statistics */}
             <div className="flex flex-col gap-2">
                 <h1 className="text-base text-third font-medium">
-                    Users Statistics
+                    Administrations Statistics
                 </h1>
                 <div className="bg-white p-8 rounded-lg shadow-lg">
                     <div className="grid grid-cols-1 md:grid-cols-3">
                         <div className="flex flex-col gap-2">
-                            <h1 className="text-fourth">Nbr Users</h1>
-                            <p className="text-base font-semibold">3803</p>
+                            <h1 className="text-fourth">Nbr Administrators</h1>
+                            <p className="text-base font-semibold">10</p>
                         </div>
                         <div className="flex flex-col gap-2">
-                            <h1 className="text-fourth">Nbr Events</h1>
-                            <p className="text-base font-semibold">3803</p>
+                            <h1 className="text-fourth">Active</h1>
+                            <p className="text-base font-semibold">10</p>
                         </div>
                         <div className="flex flex-col gap-2">
-                            <h1 className="text-fourth">Nbr Tickets</h1>
-                            <p className="text-base font-semibold">3803</p>
+                            <h1 className="text-fourth">Block</h1>
+                            <p className="text-base font-semibold">0</p>
                         </div>
                     </div>
                 </div>
             </div>
-            {/* Users Details */}
+            {/* Administrations Details */}
             <div className="w-full flex flex-col gap-2">
                 <h1 className="w-full text-base text-third font-medium">
-                    Users Details
+                    Administrations Details
                 </h1>
                 <div class="w-full overflow-auto sm:rounded-lg bg-white shadow-lg">
                     <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
@@ -57,17 +58,15 @@ const UserComponent = () => {
                             </form>
                         </div>
                         <div class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
-                            {/* <button
+                            <button
+                                class="z-10 w-full md:w-auto flex items-center justify-center py-2 px-4 text-sm font-medium text-white focus:outline-none bg-primary rounded-lg border border-gray-200 hover:bg-third focus:z-10 focus:ring-4 focus:ring-gray-200"
                                 type="button"
-                                class="flex items-center justify-center text-white bg-primary hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 focus:outline-none"
                             >
                                 <FaPlus className="text-lg text-white mr-2" />
                                 Add
-                            </button> */}
+                            </button>
                             <div class="flex justify-end items-start space-x-3 w-full md:w-auto">
                                 <button
-                                    id="actionsDropdownButton"
-                                    data-dropdown-toggle="actionsDropdown"
                                     class="z-10 w-full md:w-auto flex items-center justify-center py-2 px-4 text-sm font-medium text-white focus:outline-none bg-secondary rounded-lg border border-gray-200 hover:bg-third focus:z-10 focus:ring-4 focus:ring-gray-200"
                                     type="button"
                                     onClick={() => setSeeState(!seeState)}
@@ -92,19 +91,13 @@ const UserComponent = () => {
                                         aria-labelledby="actionsDropdownButton"
                                     >
                                         <li className="hover:bg-third">
-                                            <a
-                                                href="/"
-                                                class="block py-2 px-4"
-                                            >
+                                            <a href="/" class="block py-2 px-4">
                                                 Active
                                             </a>
                                         </li>
                                         <hr />
                                         <li className="hover:bg-third">
-                                            <a
-                                                href="/"
-                                                class="block py-2 px-4"
-                                            >
+                                            <a href="/" class="block py-2 px-4">
                                                 Block
                                             </a>
                                         </li>
@@ -117,19 +110,16 @@ const UserComponent = () => {
                         <thead class="text-xs text-secondary uppercase bg-gray-50">
                             <tr>
                                 <th scope="col" class="px-6 py-3 w-2/12">
-                                    UserName
+                                    Name
                                 </th>
                                 <th scope="col" class="px-6 py-3 w-2/12">
                                     Email
                                 </th>
                                 <th scope="col" class="px-6 py-3 w-2/12">
-                                    Phone Number
+                                    Phone
                                 </th>
-                                <th scope="col" class="px-6 py-3 w-1/12">
-                                    Events
-                                </th>
-                                <th scope="col" class="px-6 py-3 w-1/12">
-                                    Tickets
+                                <th scope="col" class="px-6 py-3 w-2/12">
+                                    Address
                                 </th>
                                 <th scope="col" class="px-6 py-3 w-2/12">
                                     State
@@ -154,10 +144,7 @@ const UserComponent = () => {
                                     695914926
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap w-1/12">
-                                    20
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap w-1/12">
-                                    200
+                                    Address
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap w-2/12">
                                     <span className="px-3 py-1 rounded-lg bg-green-500 text-white">
@@ -169,13 +156,13 @@ const UserComponent = () => {
                                         href="/users/1"
                                         class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                                     >
-                                        See more
+                                        Edit
                                     </a>
                                     <a
                                         href="/"
                                         class="font-medium text-red-600 dark:text-red-500 hover:underline ms-3"
                                     >
-                                        Remove
+                                        Block
                                     </a>
                                 </td>
                             </tr>
@@ -184,8 +171,13 @@ const UserComponent = () => {
                     <PaginationWidget />
                 </div>
             </div>
+            {/* <div className="z-20 fixed flex justify-center items-center top-0 left-0 w-screen h-screen bg-secondary bg-opacity-30">
+                <div className="w-10/12 sm:w-8/12 md:w-6/12 lg:w-4/12 h-10 bg-white">
+
+                </div>
+            </div> */}
         </div>
     );
 };
 
-export default UserComponent;
+export default Administration;

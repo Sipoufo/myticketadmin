@@ -8,7 +8,11 @@ const ForgetPassword = () => {
 
     return (
         <div className="w-10/12 sm:w-8/12 md:w-6/12 lg:w-3/12 flex flex-col items-center justify-center gap-10">
-            <h1 className="font-extrabold text-3xl text-primary">MyTicket</h1>
+            <img
+                src={process.env.PUBLIC_URL + "/assets/logos/logo.png"}
+                className="w-full object-contain"
+                alt="logo"
+            />
             <h2 className="font-semibold text-xl">Forgot Password ?</h2>
             <p className="text-center -mt-6">
                 Enter your email address to get the password reset link.
@@ -26,7 +30,10 @@ const ForgetPassword = () => {
                 {/* Submit Button */}
                 <ButtonWidget name={"Password Reset"} />
                 <div className="flex justify-center">
-                    <Link to={"/"} className="text-third font-medium underline underline-offset-2 hover:no-underline">
+                    <Link
+                        to={"/"}
+                        className="text-third font-medium underline underline-offset-2 hover:no-underline"
+                    >
                         Back to login
                     </Link>
                 </div>
