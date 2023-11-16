@@ -56,11 +56,16 @@ export const ForgetPasswordService = async (data) => {
             };
         })
         .catch((e) => {
-            return {
-                isError: true,
-                message: e.response.data["message"],
-                data: null,
-            };
+            if (e.response["status"] !== 400) {
+                window.location.replace("/error");
+            } else {
+                return {
+                    data: null,
+                    isError: true,
+                    code: e.response.status,
+                    message: e.response.data["message"],
+                };
+            }
         });
 };
 
@@ -75,10 +80,15 @@ export const ResetPasswordService = async (data) => {
             };
         })
         .catch((e) => {
-            return {
-                isError: true,
-                message: e.response.data["message"],
-                data: null,
-            };
+            if (e.response["status"] !== 400) {
+                window.location.replace("/error");
+            } else {
+                return {
+                    data: null,
+                    isError: true,
+                    code: e.response.status,
+                    message: e.response.data["message"],
+                };
+            }
         });
 };
