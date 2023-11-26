@@ -1,12 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import InputWidget from "../../widgets/inputWidget";
 import ButtonWidget from "../../widgets/buttonWidget";
+import { OneUserInfoService } from "../../services/userService";
+import { useParams } from "react-router-dom";
+import LoadingComponent from "../loadingComponent";
 
 const AccountUserComponent = () => {
-    const [name, setName] = useState("BLACKCode Yvan");
-    const [email, setEmail] = useState("sipoufoknj@gmail.com");
-    const [phone, setPhone] = useState("695914926");
-    const [address, setAddress] = useState("Yassa");
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const { idUser } = useParams();
+
+    const UserInfo = async (idUser) => {
+        const data = await OneUserInfoService(idUser);
+        setUser(data.data);
+    };
+
+    useEffect(() => {
+        UserInfo(idUser);
+        setLoading(false);
+    }, [idUser]);
+
+    if (loading || user == null) {
+        return <LoadingComponent />
+    }
     return (
         <div className="flex flex-col-reverse md:flex-row gap-6">
             {/* Infos */}
@@ -15,32 +31,28 @@ const AccountUserComponent = () => {
                     label={"Full Name"}
                     type={"text"}
                     name={"name"}
-                    onChange={(e) => setName(e.target.value)}
-                    value={name}
+                    value={user["lastName"] + " " + user["lastName"]}
                     disable={true}
                 />
                 <InputWidget
                     label={"Email"}
                     type={"email"}
                     name={"email"}
-                    onChange={(e) => setEmail(e.target.value)}
-                    value={email}
+                    value={user["email"]}
                     disable={true}
                 />
                 <InputWidget
                     label={"Phone"}
                     type={"text"}
                     name={"phone"}
-                    onChange={(e) => setPhone(e.target.value)}
-                    value={phone}
+                    value={user["phone"]}
                     disable={true}
                 />
                 <InputWidget
                     label={"Address"}
                     type={"text"}
                     name={"address"}
-                    onChange={(e) => setAddress(e.target.value)}
-                    value={address}
+                    value={user["address"] ? user["address"] : ""}
                     disable={true}
                 />
                 <div className="flex flex-col md:flex-row gap-4 bg">

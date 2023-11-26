@@ -24,6 +24,8 @@ const SignIn = () => {
         if (response.isError) {
             setActiveMessageBox(true);
             setData(response);
+        } else {
+            window.location.replace("/");
         }
         setLoading(false);
     };

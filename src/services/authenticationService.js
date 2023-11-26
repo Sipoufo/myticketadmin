@@ -32,6 +32,9 @@ export const SignInService = async (data) => {
             };
         })
         .catch((e) => {
+            if (e.response) {
+                window.location.replace("/error");
+            }
             if (e.response["status"] !== 400) {
                 window.location.replace("/error");
             } else {
@@ -56,6 +59,9 @@ export const ForgetPasswordService = async (data) => {
             };
         })
         .catch((e) => {
+            if (e.response) {
+                window.location.replace("/error");
+            }
             if (e.response["status"] !== 400) {
                 window.location.replace("/error");
             } else {
@@ -80,6 +86,9 @@ export const ResetPasswordService = async (data) => {
             };
         })
         .catch((e) => {
+            if (e.response) {
+                window.location.replace("/error");
+            }
             if (e.response["status"] !== 400) {
                 window.location.replace("/error");
             } else {
