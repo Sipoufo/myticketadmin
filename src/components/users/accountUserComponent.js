@@ -21,7 +21,7 @@ const AccountUserComponent = () => {
     }, [idUser]);
 
     if (loading || user == null) {
-        return <LoadingComponent />
+        return <LoadingComponent />;
     }
     return (
         <div className="flex flex-col-reverse md:flex-row gap-6">

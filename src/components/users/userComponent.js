@@ -15,7 +15,7 @@ const UserComponent = () => {
     const [searchWord, setSearchWord] = useState(true);
 
     const fetchAllUsers = async (number, size) => {
-        const data = await FetchAllUsersService(number, size);
+        const data = await FetchAllUsersService(false, number, size);
         console.log(data.data);
         setUsers(data.data);
         setPageNumber(data.data["pageable"]["pageNumber"] + 1);
@@ -37,7 +37,7 @@ const UserComponent = () => {
     };
 
     const blockUserById = async (userId, block) => {
-        await BlockUserService(userId, block);
+        await BlockUserService(false, userId, block);
     };
 
     useEffect(() => {

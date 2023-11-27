@@ -1,10 +1,12 @@
 const URL = process.env.REACT_APP_API_URL;
 
 // Users
-export const AllUserEndPoint = (pageNumber, pageSize) =>
-    URL + "/api/users/customer/" + pageNumber + "/" + pageSize;
+export const AllUserEndPoint = (isForAdmin, pageNumber, pageSize) =>
+    URL + "/api/users/customer/" + isForAdmin + "/" + pageNumber + "/" + pageSize;
 
 export const UsersInfoEndPoint = () => URL + "/api/users/userInfo";
+
+export const AdminsInfoEndPoint = () => URL + "/api/users/adminInfo";
 
 export const BlockUserEndPoint = (userId, block) =>
     URL + "/api/users/block/" + userId + "/" + block;

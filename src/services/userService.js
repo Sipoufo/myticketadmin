@@ -1,16 +1,16 @@
 import axios from "axios";
-import { AllUserEndPoint, BlockUserEndPoint, FetchAllUserEventsEndPoint, FetchAllUserTicketsEndPoint, OneUserInfoEndPoint, SearchUserEndPoint, UsersInfoEndPoint } from "../constants/userEndpont";
+import { AdminsInfoEndPoint, AllUserEndPoint, BlockUserEndPoint, FetchAllUserEventsEndPoint, FetchAllUserTicketsEndPoint, OneUserInfoEndPoint, SearchUserEndPoint, UsersInfoEndPoint } from "../constants/userEndpont";
 import { GetToken, RemoveItems } from "./tokenService";
 import { VerifyToken } from "./tokenVerification";
 
 const headers = { Authorization: "Bearer " + GetToken() };
 
-export const FetchAllUsersService = async (pageNumber, pageSize) => {
+export const FetchAllUsersService = async (isForAdmin, pageNumber, pageSize) => {
     if (!VerifyToken()) {
         window.location.replace("/");
     }
     return axios
-        .get(AllUserEndPoint(pageNumber, pageSize), {
+        .get(AllUserEndPoint(isForAdmin, pageNumber, pageSize), {
             headers,
         })
         .then((response) => {
@@ -73,7 +73,41 @@ export const FetchUsersInfoService = async () => {
         });
 };
 
-export const BlockUserService = async (userId, block) => {
+export const FetchAdminsInfoService = async () => {
+    if (!VerifyToken()) {
+        window.location.replace("/");
+    }
+    return axios
+        .get(AdminsInfoEndPoint(), {
+            headers,
+        })
+        .then((response) => {
+            return {
+                isError: false,
+                message: null,
+                data: response.data,
+            };
+        })
+        .catch((e) => {
+            if (!e.response) {
+                RemoveItems();
+                window.location.replace("/error");
+            }
+            if (e.response["status"] !== 400) {
+                RemoveItems();
+                window.location.replace("/error");
+            } else {
+                return {
+                    data: null,
+                    isError: true,
+                    code: e.response.status,
+                    message: e.response.data["message"],
+                };
+            }
+        });
+};
+
+export const BlockUserService = async (isAdmin, userId, block) => {
     if (!VerifyToken()) {
         window.location.replace("/");
     }
@@ -82,7 +116,11 @@ export const BlockUserService = async (userId, block) => {
             headers,
         })
         .then((response) => {
-            window.location.replace("/users");
+            if (isAdmin) {
+                window.location.replace("/admin");
+            } else {
+                window.location.replace("/users");
+            }
         })
         .catch((e) => {
             if (!e.response) {

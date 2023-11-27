@@ -1,11 +1,61 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { IoIosArrowDown } from "react-icons/io";
 import { FaPlus } from "react-icons/fa6";
 import PaginationWidget from "../../widgets/paginationWidget";
+import LoadingComponent from "../../components/loadingComponent";
+import {
+    BlockUserService,
+    FetchAdminsInfoService,
+    FetchAllUsersService,
+} from "../../services/userService";
+import AddAdmin from "../../components/addAdmin";
 
 const Administration = () => {
+    const [admins, setAdmins] = useState(null);
+    const [adminsInfo, setAdminsInfo] = useState(null);
+    const [pageNumber, setPageNumber] = useState(1);
+    const [pageSize, setPageSize] = useState(20);
     const [seeState, setSeeState] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [activeModal, setActiveModal] = useState(false);
+    const [searchWord, setSearchWord] = useState(true);
+
+    const fetchAllUsers = async (number, size) => {
+        const data = await FetchAllUsersService(true, number, size);
+        console.log(data.data);
+        setAdmins(data.data);
+        setPageNumber(data.data["pageable"]["pageNumber"] + 1);
+        setPageSize(data.data["pageable"]["pageSize"]);
+    };
+
+    // const searchUsers = async (e, pageNumber, pageSize) => {
+    //     e.preventDefault();
+    //     const data = await SearchUserService(searchWord ? searchWord : "", pageNumber, pageSize);
+    //     setAdmins(data.data);
+    //     setPageNumber(data.data["pageable"]["pageNumber"] + 1);
+    //     setPageSize(data.data["pageable"]["pageSize"]);
+    // };
+
+    const fetchUserInfo = async () => {
+        const data = await FetchAdminsInfoService();
+        console.log(data.data);
+        setAdminsInfo(data.data);
+    };
+
+    const blockUserById = async (userId, block) => {
+        await BlockUserService(true, userId, block);
+    };
+
+    useEffect(() => {
+        fetchAllUsers(pageNumber, pageSize);
+        fetchUserInfo();
+        setLoading(false);
+    }, [pageNumber, pageSize]);
+
+    if (loading || adminsInfo === null || admins === null) {
+        return <LoadingComponent />;
+    }
 
     return (
         <div className="flex flex-col gap-8 w-full">
@@ -18,15 +68,21 @@ const Administration = () => {
                     <div className="grid grid-cols-1 md:grid-cols-3">
                         <div className="flex flex-col gap-2">
                             <h1 className="text-fourth">Nbr Administrators</h1>
-                            <p className="text-base font-semibold">10</p>
+                            <p className="text-base font-semibold">
+                                {adminsInfo["adminNumber"]}
+                            </p>
                         </div>
                         <div className="flex flex-col gap-2">
                             <h1 className="text-fourth">Active</h1>
-                            <p className="text-base font-semibold">10</p>
+                            <p className="text-base font-semibold">
+                                {adminsInfo["adminActiveNumber"]}
+                            </p>
                         </div>
                         <div className="flex flex-col gap-2">
                             <h1 className="text-fourth">Block</h1>
-                            <p className="text-base font-semibold">0</p>
+                            <p className="text-base font-semibold">
+                                {adminsInfo["adminBlockNumber"]}
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -40,7 +96,10 @@ const Administration = () => {
                     <div className="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
                         <div className="w-full md:w-1/2">
                             <form className="flex items-center">
-                                <label htmlFor="simple-search" className="sr-only">
+                                <label
+                                    htmlFor="simple-search"
+                                    className="sr-only"
+                                >
                                     Search
                                 </label>
                                 <div className="relative w-full">
@@ -61,6 +120,7 @@ const Administration = () => {
                             <button
                                 className="z-10 w-full md:w-auto flex items-center justify-center py-2 px-4 text-sm font-medium text-white focus:outline-none bg-primary rounded-lg border border-gray-200 hover:bg-third focus:z-10 focus:ring-4 focus:ring-gray-200"
                                 type="button"
+                                onClick={() => setActiveModal(true)}
                             >
                                 <FaPlus className="text-lg text-white mr-2" />
                                 Add
@@ -91,13 +151,19 @@ const Administration = () => {
                                         aria-labelledby="actionsDropdownButton"
                                     >
                                         <li className="hover:bg-third">
-                                            <a href="/" className="block py-2 px-4">
+                                            <a
+                                                href="/"
+                                                className="block py-2 px-4"
+                                            >
                                                 Active
                                             </a>
                                         </li>
                                         <hr />
                                         <li className="hover:bg-third">
-                                            <a href="/" className="block py-2 px-4">
+                                            <a
+                                                href="/"
+                                                className="block py-2 px-4"
+                                            >
                                                 Block
                                             </a>
                                         </li>
@@ -130,42 +196,66 @@ const Administration = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className="bg-white border-b hover:bg-gray-50">
-                                <th
-                                    scope="row"
-                                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap w-2/12"
-                                >
-                                    BLACKCode Yvan
-                                </th>
-                                <td className="px-6 py-4 whitespace-nowrap w-2/12">
-                                    sipoufoknj@gmail.com
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap w-2/12">
-                                    695914926
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap w-1/12">
-                                    Address
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap w-2/12">
-                                    <span className="px-3 py-1 rounded-lg bg-green-500 text-white">
-                                        Active
-                                    </span>
-                                </td>
-                                <td className="flex items-center px-6 py-4 whitespace-nowrap w-2/12">
-                                    <a
-                                        href="/users/1"
-                                        className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                            {admins["data"].map((admin) => {
+                                return (
+                                    <tr
+                                        key={admin["userId"]}
+                                        className="bg-white border-b hover:bg-gray-50"
                                     >
-                                        Edit
-                                    </a>
-                                    <a
-                                        href="/"
-                                        className="font-medium text-red-600 dark:text-red-500 hover:underline ms-3"
-                                    >
-                                        Block
-                                    </a>
-                                </td>
-                            </tr>
+                                        <th
+                                            scope="row"
+                                            className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap w-2/12"
+                                        >
+                                            {admin["firstName"] + " " + admin["lastName"]}
+                                        </th>
+                                        <td className="px-6 py-4 whitespace-nowrap w-2/12">
+                                            {admin["email"]}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap w-2/12">
+                                            {admin["phone"]}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap w-1/12">
+                                            {admin["address"]}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap w-2/12">
+                                            {admin["deleted"] ? (
+                                                <span className="px-3 py-1 rounded-lg bg-rose-500 text-white">
+                                                    Block
+                                                </span>
+                                            ) : (
+                                                <span className="px-3 py-1 rounded-lg bg-green-500 text-white">
+                                                    Active
+                                                </span>
+                                            )}
+                                        </td>
+                                        <td className="flex items-center px-6 py-4 whitespace-nowrap w-2/12">
+                                            <a
+                                                href={`/admin/${admin["userId"]}`}
+                                                className="font-medium text-blue-600 hover:underline"
+                                            >
+                                                Edit
+                                            </a>
+                                            <button
+                                                className={`${
+                                                    admin["deleted"]
+                                                        ? "text-green-600"
+                                                        : "text-red-600"
+                                                } font-medium hover:underline ms-3`}
+                                                onClick={() =>
+                                                    blockUserById(
+                                                        admin["userId"],
+                                                        !admin["deleted"]
+                                                    )
+                                                }
+                                            >
+                                                {admin["deleted"]
+                                                    ? "Unblock"
+                                                    : "Block"}
+                                            </button>
+                                        </td>
+                                    </tr>
+                                );
+                            })}
                         </tbody>
                     </table>
                     <PaginationWidget />
@@ -176,6 +266,7 @@ const Administration = () => {
 
                 </div>
             </div> */}
+            <AddAdmin active={activeModal} setActive={setActiveModal} />
         </div>
     );
 };
