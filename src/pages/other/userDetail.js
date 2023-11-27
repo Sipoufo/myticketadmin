@@ -10,7 +10,10 @@ const UserDetail = () => {
         <div className="flex flex-col w-full">
             <div className="flex flex-col bg-white p-8 rounded-lg shadow-lg gap-10">
                 <div className="block">
-                    <button className="flex flex-row items-center gap-2 font-medium hover:cursor-pointer hover:text-primary">
+                    <button
+                        className="flex flex-row items-center gap-2 font-medium hover:cursor-pointer hover:text-primary"
+                        onClick={() => window.location.replace("/users")}
+                    >
                         <TbArrowBackUpDouble className="text-xl" />
                         <p>Back</p>
                     </button>

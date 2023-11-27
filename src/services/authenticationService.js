@@ -1,5 +1,9 @@
 import axios from "axios";
-import {SignInEndpoint, ForgetPasswordEndpoint, ResetPasswordEndpoint} from "../constants/endpoint";
+import {
+    SignInEndpoint,
+    ForgetPasswordEndpoint,
+    ResetPasswordEndpoint,
+} from "../constants/endpoint";
 import { SetToken, SetUserId, SetUserName, SetUserRole } from "./tokenService";
 import { SetCookies } from "./cookieService";
 
@@ -7,6 +11,14 @@ export const SignInService = async (data) => {
     return axios
         .post(SignInEndpoint(), data)
         .then((response) => {
+            if (response.data["user"]["role"]["name"] !== "ROLE_ADMIN") {
+                return {
+                    isError: true,
+                    message: "Email or password error",
+                    data: null,
+                    code: 400,
+                };
+            }
             SetToken(response.data["token"]);
             SetUserName(response.data["firstName"]);
             SetUserId(response.data["user"]["userId"].toString());
@@ -20,12 +32,19 @@ export const SignInService = async (data) => {
             };
         })
         .catch((e) => {
-            return {
-                data: null,
-                isError: true,
-                code: e.response.status,
-                message: e.response.data["message"],
-            };
+            if (e.response) {
+                window.location.replace("/error");
+            }
+            if (e.response["status"] !== 400) {
+                window.location.replace("/error");
+            } else {
+                return {
+                    data: null,
+                    isError: true,
+                    code: e.response.status,
+                    message: e.response.data["message"],
+                };
+            }
         });
 };
 
@@ -40,11 +59,19 @@ export const ForgetPasswordService = async (data) => {
             };
         })
         .catch((e) => {
-            return {
-                isError: true,
-                message: e.response.data["message"],
-                data: null,
-            };
+            if (e.response) {
+                window.location.replace("/error");
+            }
+            if (e.response["status"] !== 400) {
+                window.location.replace("/error");
+            } else {
+                return {
+                    data: null,
+                    isError: true,
+                    code: e.response.status,
+                    message: e.response.data["message"],
+                };
+            }
         });
 };
 
@@ -59,10 +86,18 @@ export const ResetPasswordService = async (data) => {
             };
         })
         .catch((e) => {
-            return {
-                isError: true,
-                message: e.response.data["message"],
-                data: null,
-            };
+            if (e.response) {
+                window.location.replace("/error");
+            }
+            if (e.response["status"] !== 400) {
+                window.location.replace("/error");
+            } else {
+                return {
+                    data: null,
+                    isError: true,
+                    code: e.response.status,
+                    message: e.response.data["message"],
+                };
+            }
         });
 };
