@@ -18,7 +18,7 @@ const SignIn = () => {
         setLoading(true);
         const data = {
             username: email,
-            password,
+            password: password,
         };
         const response = await SignInService(data);
         if (response.isError) {
