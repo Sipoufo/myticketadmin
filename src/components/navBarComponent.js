@@ -25,7 +25,7 @@ const NavBarComponent = () => {
                         name={"Balances"}
                     /> */}
                     <ButtonNavBarWidget
-                        link={""}
+                        link={"/transaction"}
                         icon={<VscArrowSwap />}
                         name={"Transaction"}
                     />
@@ -53,7 +53,7 @@ const NavBarComponent = () => {
             </div>
             <div className="flex flex-col w-full gap-8 text-white">
                 <ButtonNavBarWidget
-                    link={""}
+                    link={"/logout"}
                     icon={<IoLogOut />}
                     name={"logout"}
                     isLogout={true}
