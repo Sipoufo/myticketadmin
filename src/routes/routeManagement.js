@@ -17,6 +17,7 @@ import AccountSettingComponent from "../components/setting/accountSettingCompone
 import PasswordSettingComponent from "../components/setting/passwordSettingComponent";
 import Notification from "../pages/other/notification";
 import Administration from "../pages/other/admin";
+import Transaction from "../pages/other/transaction";
 import { GetToken } from "../services/tokenService";
 import Error from "../pages/error";
 
@@ -44,6 +45,8 @@ const RouteManagement = () => {
         <Routes>
             <Route path="/" element={<IndexOther />}>
                 <Route index element={<Overview />} />
+                <Route path="/transaction" element={<Transaction />} />
+
                 <Route path="/users/" element={<Users />}>
                     <Route index element={<UserComponent />} />
                     <Route path=":idUser/" element={<UserDetail />}>
