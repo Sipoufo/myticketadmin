@@ -25,6 +25,7 @@ const UserComponent = () => {
     const searchUsers = async (e, pageNumber, pageSize) => {
         e.preventDefault();
         const data = await SearchUserService(searchWord ? searchWord : "", pageNumber, pageSize);
+        console.log(data);
         setUsers(data.data);
         setPageNumber(data.data["pageable"]["pageNumber"] + 1);
         setPageSize(data.data["pageable"]["pageSize"]);
@@ -101,6 +102,7 @@ const UserComponent = () => {
                                     <input
                                         type="text"
                                         id="simple-search"
+                                        value={searchWord}
                                         className="bg-background border border-gray-300 text-secondary text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2"
                                         placeholder="Search"
                                         onChange={(e) => setSearchWord(e.target.value)}
