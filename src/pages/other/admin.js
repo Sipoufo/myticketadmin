@@ -20,7 +20,9 @@ const Administration = () => {
     const [loading, setLoading] = useState(true);
     const [activeModal, setActiveModal] = useState(false);
     const [searchWord, setSearchWord] = useState(true);
-
+    const [startNumber, setStartNumber] = useState(1);
+    const [endNumber, setEndNumber] = useState(0);
+    const [adminCount, setAdminCount] = useState(0);
     const fetchAllUsers = async (number, size) => {
         const data = await FetchAllUsersService(true, number, size);
         console.log(data.data);
@@ -28,6 +30,28 @@ const Administration = () => {
         setPageNumber(data.data["pageable"]["pageNumber"] + 1);
         setPageSize(data.data["pageable"]["pageSize"]);
     };
+
+    const incrementPageNumber = ()=>{
+        if(((pageNumber+1) * pageSize) <= adminsInfo["adminNumber"]){
+            setPageNumber(pageNumber+1);
+        }
+    }
+    const decrementPageNumber = () => {
+        if (pageNumber-1 > 0){
+            setPageNumber(pageNumber-1);
+        }
+    }
+
+    const paginateCounter = () => {
+        if (admins !== null)
+            setAdminCount(admins.data.length);
+        showingPaginationValues();
+    }
+
+    const showingPaginationValues = () =>{
+        setStartNumber(((pageNumber-1) * pageSize + 1));
+        setEndNumber(adminCount * pageNumber);
+    }
 
     // const searchUsers = async (e, pageNumber, pageSize) => {
     //     e.preventDefault();
@@ -52,6 +76,10 @@ const Administration = () => {
         fetchUserInfo();
         setLoading(false);
     }, [pageNumber, pageSize]);
+
+    useEffect(() => {
+        paginateCounter();
+    }, [admins]);
 
     if (loading || adminsInfo === null || admins === null) {
         return <LoadingComponent />;
@@ -258,7 +286,13 @@ const Administration = () => {
                             })}
                         </tbody>
                     </table>
-                    <PaginationWidget />
+                    <PaginationWidget
+                        start={startNumber}
+                        end={endNumber}
+                        size={adminsInfo["adminNumber"]-1}
+                        incrementPageNum={incrementPageNumber}
+                        decrementPageNum={decrementPageNumber}
+                    />
                 </div>
             </div>
             {/* <div className="z-20 fixed flex justify-center items-center top-0 left-0 w-screen h-screen bg-secondary bg-opacity-30">
