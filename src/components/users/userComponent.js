@@ -37,7 +37,6 @@ const UserComponent = () => {
 
     const showingPaginationValues = () =>{
         setStartNumber(((pageNumber-1) * pageSize + 1));
-        // setEndNumber(Math.min(startNumber + pageSize - 1, usersInfo["userNumber"]));
         setEndNumber(userCount * pageNumber);
     }
 
