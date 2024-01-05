@@ -1,7 +1,7 @@
 import React from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
-const PaginationWidget = ({start = 0, end = 0, size = 0}) => {
+const PaginationWidget = ({start = 0, end = 0, size = 0, incrementPageNum, decrementPageNum}) => {
     return (
         <nav
             className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4"
@@ -15,13 +15,16 @@ const PaginationWidget = ({start = 0, end = 0, size = 0}) => {
                 <li>
                     <button
                         className={`${start <= 1 && "cursor-not-allowed"} disabled flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700`}
+                        onClick={decrementPageNum}
                     >
                         <IoIosArrowBack className="text-lg text-sixth mr-2" />
                     </button>
                 </li>
                 <li>
                     <button
-                        className={`${end >= size && "cursor-not-allowed"} flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700`}
+                        className={`${end == size && "cursor-not-allowed"} flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700`}
+                        onClick={incrementPageNum}
+                        // disabled={end >= size ? false : true}
                     >
                         <IoIosArrowForward className="text-lg text-sixth mr-2" />
                     </button>

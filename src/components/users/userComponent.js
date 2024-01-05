@@ -9,10 +9,38 @@ const UserComponent = () => {
     const [users, setUsers] = useState(null);
     const [usersInfo, setUsersInfo] = useState(null);
     const [pageNumber, setPageNumber] = useState(1);
-    const [pageSize, setPageSize] = useState(20);
+    const [pageSize, setPageSize] = useState(2);
     const [seeState, setSeeState] = useState(false);
     const [loading, setLoading] = useState(true);
-    const [searchWord, setSearchWord] = useState(true);
+    const [searchWord, setSearchWord] = useState("");
+    const [startNumber, setStartNumber] = useState(1);
+    const [endNumber, setEndNumber] = useState(0);
+    const [userCount, setUserCount] = useState(0);
+
+
+    const incrementPageNumber = ()=>{
+        if(((pageNumber+1) * pageSize) <= usersInfo["userNumber"]){
+            setPageNumber(pageNumber+1);
+        }
+    }
+    const decrementPageNumber = () => {
+        if (pageNumber-1 > 0){
+            setPageNumber(pageNumber-1);
+        }
+    }
+
+    const paginateCounter = () => {
+        if (users !== null)
+            setUserCount(users.data.length);
+        showingPaginationValues();
+    }
+
+    const showingPaginationValues = () =>{
+        setStartNumber(((pageNumber-1) * pageSize + 1));
+        setEndNumber(userCount * pageNumber);
+    }
+
+
 
     const fetchAllUsers = async (number, size) => {
         const data = await FetchAllUsersService(false, number, size);
@@ -20,11 +48,13 @@ const UserComponent = () => {
         setUsers(data.data);
         setPageNumber(data.data["pageable"]["pageNumber"] + 1);
         setPageSize(data.data["pageable"]["pageSize"]);
+
     };
 
     const searchUsers = async (e, pageNumber, pageSize) => {
         e.preventDefault();
         const data = await SearchUserService(searchWord ? searchWord : "", pageNumber, pageSize);
+        console.log(data);
         setUsers(data.data);
         setPageNumber(data.data["pageable"]["pageNumber"] + 1);
         setPageSize(data.data["pageable"]["pageSize"]);
@@ -45,6 +75,12 @@ const UserComponent = () => {
         fetchUserInfo();
         setLoading(false);
     }, [pageNumber, pageSize]);
+
+    useEffect(() => {
+        paginateCounter();
+    }, [users]);
+
+
 
     if (loading || usersInfo === null || users === null) {
         return <LoadingComponent />;
@@ -101,6 +137,7 @@ const UserComponent = () => {
                                     <input
                                         type="text"
                                         id="simple-search"
+                                        value={searchWord}
                                         className="bg-background border border-gray-300 text-secondary text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2"
                                         placeholder="Search"
                                         onChange={(e) => setSearchWord(e.target.value)}
@@ -247,9 +284,11 @@ const UserComponent = () => {
                         </tbody>
                     </table>
                     <PaginationWidget
-                        start={pageNumber}
-                        end={pageSize > users["dataNumber"] ? users["dataNumber"] : pageSize}
-                        size={users["dataNumber"]}
+                        start={startNumber}
+                        end={endNumber}
+                        size={usersInfo["userNumber"]}
+                        incrementPageNum={incrementPageNumber}
+                        decrementPageNum={decrementPageNumber}
                     />
                 </div>
             </div>

@@ -6,4 +6,4 @@ const Transaction = () => {
     )
 }
 
-export default Overview;
+export default Transaction;

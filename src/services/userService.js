@@ -144,7 +144,7 @@ export const BlockUserService = async (isAdmin, userId, block) => {
 export const SearchUserService = async (searchWord, pageNumber, pageSize) => {
     if (!VerifyToken()) {
         window.location.replace("/");
-    }
+    } 
     return axios
         .get(SearchUserEndPoint(searchWord, pageNumber, pageSize), {
             headers,
