@@ -2,7 +2,7 @@ import React from "react";
 import ButtonNavBarWidget from "../widgets/buttonNavBarWidget";
 import { SiWindows11 } from "react-icons/si";
 import { IoLogOut } from "react-icons/io5";
-import { VscArrowSwap } from "react-icons/vsc";
+import { VscArrowSwap, VscCommentDiscussion } from "react-icons/vsc";
 import { AiOutlineSetting } from "react-icons/ai";
 import { HiOutlineUsers } from "react-icons/hi2";
 import { BsBellFill } from "react-icons/bs";
@@ -28,6 +28,11 @@ const NavBarComponent = () => {
                         link={"/transaction"}
                         icon={<VscArrowSwap />}
                         name={"Transaction"}
+                    />
+                    <ButtonNavBarWidget
+                        link={"/requests"}
+                        icon={<VscCommentDiscussion />}
+                        name={"Requests"}
                     />
                     <ButtonNavBarWidget
                         link={"/users"}

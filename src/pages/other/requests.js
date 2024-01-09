@@ -2,24 +2,27 @@ import React, { useEffect, useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { IoIosArrowDown } from "react-icons/io";
 import PaginationWidget from "../../widgets/paginationWidget";
-import { BlockUserService, FetchAllUsersService, FetchUsersInfoService, SearchUserService } from "../../services/userService";
-import LoadingComponent from "../loadingComponent";
+import { BlockUserService, 
+    // FetchAllUsersService, FetchUsersInfoService, SearchUserService 
+} from "../../services/userService";
+import { FetchAllRequests } from "../../services/requestService";
+import LoadingComponent from "../../components/loadingComponent";
 
-const UserComponent = () => {
-    const [users, setUsers] = useState(null);
-    const [usersInfo, setUsersInfo] = useState(null);
+const Requests = () => {
+    const [requests, setRequests] = useState(null);
+    const [globalRequests, setGlobalRequests] = useState(null);
     const [pageNumber, setPageNumber] = useState(1);
-    const [pageSize, setPageSize] = useState(20);
+    const pageSize = 1;
     const [seeState, setSeeState] = useState(false);
     const [loading, setLoading] = useState(true);
     const [searchWord, setSearchWord] = useState("");
     const [startNumber, setStartNumber] = useState(1);
     const [endNumber, setEndNumber] = useState(0);
-    const [userCount, setUserCount] = useState(0);
+    const [requestCount, setRequestCount] = useState(0);
 
 
-    const incrementPageNumber = ()=>{
-        if(((pageNumber+1) * pageSize) <= usersInfo["userNumber"]){
+    const incrementPageNumber = () => {
+        if(((pageNumber+1) * pageSize) <= globalRequests.length){
             setPageNumber(pageNumber+1);
         }
     }
@@ -30,59 +33,52 @@ const UserComponent = () => {
     }
 
     const paginateCounter = () => {
-        if (users !== null)
-            setUserCount(users.data.length);
+        if (requests !== null)
+            setRequestCount(requests.length);
         showingPaginationValues();
     }
 
     const showingPaginationValues = () =>{
         setStartNumber(((pageNumber-1) * pageSize + 1));
-        setEndNumber(userCount * pageNumber);
+        setEndNumber(requestCount * pageNumber);
+    }
+    
+    const fetchAllORequests = async (pageNumber, pageSize) => {
+        const data = await FetchAllRequests(pageNumber, pageSize);
+        setRequests(data.data);
     }
 
+    const fetchGRequests = async () => {
+        const data = await FetchAllRequests(1, 50000);
+        setGlobalRequests(data.data);
+    }
 
+    // const searchUsers = async (e, pageNumber, pageSize) => {
+    //     e.preventDefault();
+    //     const data = await SearchUserService(searchWord ? searchWord : "", pageNumber, pageSize);
+    //     console.log(data);
+    //     setRequests(data.data);
+    //     setPageNumber(data.data["pageable"]["pageNumber"] + 1);
+    //     setPageSize(data.data["pageable"]["pageSize"]);
+    // };
 
-    const fetchAllUsers = async (number, size) => {
-        const data = await FetchAllUsersService(false, number, size);
-        console.log(data.data);
-        setUsers(data.data);
-        setPageNumber(data.data["pageable"]["pageNumber"] + 1);
-        setPageSize(data.data["pageable"]["pageSize"]);
-
-    };
-
-    const searchUsers = async (e, pageNumber, pageSize) => {
-        e.preventDefault();
-        const data = await SearchUserService(searchWord ? searchWord : "", pageNumber, pageSize);
-        console.log(data);
-        setUsers(data.data);
-        setPageNumber(data.data["pageable"]["pageNumber"] + 1);
-        setPageSize(data.data["pageable"]["pageSize"]);
-    };
-
-    const fetchUserInfo = async () => {
-        const data = await FetchUsersInfoService();
-        console.log(data.data);
-        setUsersInfo(data.data);
-    };
 
     const blockUserById = async (userId, block) => {
         await BlockUserService(false, userId, block);
     };
 
     useEffect(() => {
-        fetchAllUsers(pageNumber, pageSize);
-        fetchUserInfo();
+        fetchAllORequests(pageNumber, pageSize);
+        fetchGRequests();
         setLoading(false);
     }, [pageNumber, pageSize]);
 
     useEffect(() => {
         paginateCounter();
-    }, [users]);
+    }, [requests]);
 
 
-
-    if (loading || usersInfo === null || users === null) {
+    if (loading || requests === null || globalRequests === null) {
         return <LoadingComponent />;
     }
     return (
@@ -90,40 +86,43 @@ const UserComponent = () => {
             {/* Users Statistics */}
             <div className="flex flex-col gap-2">
                 <h1 className="text-base text-third font-medium">
-                    Users Statistics
+                    Requests Statistics
                 </h1>
                 <div className="bg-white p-8 rounded-lg shadow-lg">
                     <div className="grid grid-cols-1 md:grid-cols-3">
                         <div className="flex flex-col gap-2">
-                            <h1 className="text-fourth">Nbr Users</h1>
+                            <h1 className="text-fourth">Total</h1>
                             <p className="text-base font-semibold">
-                                {usersInfo["userNumber"]}
+                                {globalRequests.length}
                             </p>
                         </div>
                         <div className="flex flex-col gap-2">
-                            <h1 className="text-fourth">Nbr Events</h1>
+                            <h1 className="text-fourth">Approuved</h1>
                             <p className="text-base font-semibold">
-                                {usersInfo["eventNumber"]}
+                                {globalRequests.filter(request => request.accepted).length}
+
                             </p>
                         </div>
                         <div className="flex flex-col gap-2">
-                            <h1 className="text-fourth">Nbr Tickets</h1>
+                            <h1 className="text-fourth">Not Approuved</h1>
                             <p className="text-base font-semibold">
-                                {usersInfo["ticketNumber"]}
+                                {globalRequests.filter(request => !request.accepted).length}
                             </p>
                         </div>
                     </div>
                 </div>
             </div>
-            {/* Users Details */}
+
             <div className="w-full flex flex-col gap-2">
                 <h1 className="w-full text-base text-third font-medium">
-                    Requested Users Details
+                    Requests Details
                 </h1>
                 <div className="w-full overflow-auto sm:rounded-lg bg-white shadow-lg">
                     <div className="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
                         <div className="w-full md:w-1/2">
-                            <form className="flex items-center" onSubmit={(e) => searchUsers(e, 1, 20)}>
+                            <form className="flex items-center" 
+                                // onSubmit={(e) => searchUsers(e, 1, 20)}
+                            >
                                 <label
                                     htmlFor="simple-search"
                                     className="sr-only"
@@ -146,13 +145,7 @@ const UserComponent = () => {
                             </form>
                         </div>
                         <div className="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
-                            {/* <button
-                                type="button"
-                                className="flex items-center justify-center text-white bg-primary hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 focus:outline-none"
-                            >
-                                <FaPlus className="text-lg text-white mr-2" />
-                                Add
-                            </button> */}
+                            
                             <div className="flex justify-end items-start space-x-3 w-full md:w-auto">
                                 <button
                                     id="actionsDropdownButton"
@@ -180,12 +173,20 @@ const UserComponent = () => {
                                         className="py-1 text-sm text-white"
                                         aria-labelledby="actionsDropdownButton"
                                     >
+                                        <li className="hover:bg-third" sel>
+                                            <a
+                                                href="/"
+                                                className="block py-2 px-4"
+                                            >
+                                                All
+                                            </a>
+                                        </li>
                                         <li className="hover:bg-third">
                                             <a
                                                 href="/"
                                                 className="block py-2 px-4"
                                             >
-                                                Active
+                                                Not Approuved
                                             </a>
                                         </li>
                                         <hr />
@@ -194,7 +195,15 @@ const UserComponent = () => {
                                                 href="/"
                                                 className="block py-2 px-4"
                                             >
-                                                Block
+                                                Pending
+                                            </a>
+                                        </li>
+                                        <li className="hover:bg-third">
+                                            <a
+                                                href="/"
+                                                className="block py-2 px-4"
+                                            >
+                                                Approuved
                                             </a>
                                         </li>
                                     </ul>
@@ -206,10 +215,7 @@ const UserComponent = () => {
                         <thead className="text-xs text-secondary uppercase bg-gray-50">
                             <tr>
                                 <th scope="col" className="px-6 py-3 w-2/12">
-                                    FirstName
-                                </th>
-                                <th scope="col" className="px-6 py-3 w-1/12">
-                                    LastName
+                                    Full Name
                                 </th>
                                 <th scope="col" className="px-6 py-3 w-2/12">
                                     Email
@@ -217,8 +223,8 @@ const UserComponent = () => {
                                 <th scope="col" className="px-6 py-3 w-2/12">
                                     Phone Number
                                 </th>
-                                <th scope="col" className="px-6 py-3 w-1/12">
-                                    state
+                                <th scope="col" className="px-6 py-3 w-2/12">
+                                    State
                                 </th>
                                 <th scope="col" className="px-6 py-3 w-2/12">
                                     Status
@@ -229,53 +235,52 @@ const UserComponent = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {users["data"].map((user) => {
+                            {requests.map((request) => {
                                 return (
+                                    
                                     <tr
-                                        key={user["userId"]}
+                                        key={request.requestOrganiserId}
                                         className="bg-white border-b hover:bg-gray-50"
                                     >
                                         <th
                                             scope="row"
                                             className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap w-2/12"
                                         >
-                                            {user["firstName"]}
+                                            {request.user.firstName + " " + request.user.lastName}
                                         </th>
-                                        <td className="px-6 py-4 whitespace-nowrap w-1/12">
-                                            {user["lastName"]}
+
+                                        <td className="px-6 py-4 whitespace-nowrap w-2/12">
+                                            {request.user.email}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap w-2/12">
-                                            {user["email"]}
+                                            {request.user.phone}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap w-2/12">
-                                            {user["phone"]}
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap w-1/12">
-                                            {user["state"]}
+                                            |   E   STAT   E  |
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap w-2/12">
-                                            {user["deleted"] ? (
+                                            {request.accepted ? (
                                                 <span className="px-3 py-1 rounded-lg bg-rose-500 text-white">
-                                                    Block
+                                                    Not Approved
                                                 </span>
                                             ) : (
                                                 <span className="px-3 py-1 rounded-lg bg-green-500 text-white">
-                                                    Active
+                                                    Approved
                                                 </span>
                                             )}
                                         </td>
                                         <td className="flex items-center px-6 py-4 whitespace-nowrap w-2/12">
                                             <a
-                                                href={`/users/${user["userId"]}`}
+                                                href={`/requests/${request.requestOrganiserId}`}
                                                 className="font-medium text-blue-600 hover:underline"
                                             >
-                                                See more
+                                                Consult
                                             </a>
                                             <button
-                                                className={`${user["deleted"] ? "text-green-600" : "text-red-600"} font-medium hover:underline ms-3`}
-                                                onClick={() => blockUserById(user["userId"], !user["deleted"])}
+                                                className={`${request.accepted ? "text-green-600" : "text-red-600"} font-medium hover:underline ms-3`}
+                                                onClick={() => blockUserById(request.requestOrganiserId, !request.accepted )}
                                             >
-                                                {user["deleted"] ? "Unblock" : "Block"}
+                                                {request.accepted ? "Approved" : "Not Approved"}
                                             </button>
                                         </td>
                                     </tr>
@@ -286,14 +291,17 @@ const UserComponent = () => {
                     <PaginationWidget
                         start={startNumber}
                         end={endNumber}
-                        size={usersInfo["userNumber"]}
+                        size={globalRequests.length}
                         incrementPageNum={incrementPageNumber}
                         decrementPageNum={decrementPageNumber}
                     />
                 </div>
             </div>
-        </div>
-    );
-};
 
-export default UserComponent;
+
+
+        </div>
+    )
+}
+
+export default Requests;
