@@ -9,7 +9,7 @@ const UserComponent = () => {
     const [users, setUsers] = useState(null);
     const [usersInfo, setUsersInfo] = useState(null);
     const [pageNumber, setPageNumber] = useState(1);
-    const [pageSize, setPageSize] = useState(2);
+    const [pageSize, setPageSize] = useState(20);
     const [seeState, setSeeState] = useState(false);
     const [loading, setLoading] = useState(true);
     const [searchWord, setSearchWord] = useState("");
