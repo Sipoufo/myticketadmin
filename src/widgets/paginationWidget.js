@@ -22,7 +22,7 @@ const PaginationWidget = ({start = 0, end = 0, size = 0, incrementPageNum, decre
                 </li>
                 <li>
                     <button
-                        className={`${end == size && "cursor-not-allowed"} flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700`}
+                        className={`${end === size && "cursor-not-allowed"} flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700`}
                         onClick={incrementPageNum}
                         // disabled={end >= size ? false : true}
                     >
