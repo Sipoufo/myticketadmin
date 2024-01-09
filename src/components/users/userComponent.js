@@ -118,7 +118,7 @@ const UserComponent = () => {
             {/* Users Details */}
             <div className="w-full flex flex-col gap-2">
                 <h1 className="w-full text-base text-third font-medium">
-                    Users Details
+                    Requested Users Details
                 </h1>
                 <div className="w-full overflow-auto sm:rounded-lg bg-white shadow-lg">
                     <div className="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
