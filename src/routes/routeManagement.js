@@ -21,7 +21,8 @@ import Transaction from "../pages/other/transaction";
 import Requests from "../pages/other/requests";
 import RequestDetail from "../pages/other/requestDetail";
 import RequestComponent from "../components/requests/requestComponent";
-import CniRequestComponent from "../components/requests/cniRequestComponent";
+import RequestInfoComponent from "../components/requests/requestInfoComponent";
+import DocumentComponent from "../components/requests/docRequestComponent";
 import { GetToken } from "../services/tokenService";
 import Error from "../pages/error";
 
@@ -56,10 +57,10 @@ const RouteManagement = () => {
                 <Route path="/requests/" element={<Requests />} >
                     <Route index element={<RequestComponent />} />
                     <Route path=":requestId/" element={<RequestDetail />}>
-                        <Route index element={<AccountUserComponent />} />
+                        <Route index element={<RequestInfoComponent />} />
                         <Route
                             path="docs"
-                            element={<CniRequestComponent />}
+                            element={<DocumentComponent />}
                         />
                     </Route>
                 </Route>
