@@ -19,6 +19,10 @@ import Notification from "../pages/other/notification";
 import Administration from "../pages/other/admin";
 import Transaction from "../pages/other/transaction";
 import Requests from "../pages/other/requests";
+import RequestDetail from "../pages/other/requestDetail";
+import RequestComponent from "../components/requests/requestComponent";
+import RequestInfoComponent from "../components/requests/requestInfoComponent";
+import DocumentComponent from "../components/requests/docRequestComponent";
 import { GetToken } from "../services/tokenService";
 import Error from "../pages/error";
 
@@ -47,7 +51,21 @@ const RouteManagement = () => {
             <Route path="/" element={<IndexOther />}>
                 <Route index element={<Overview />} />
                 <Route path="/transaction" element={<Transaction />} />
-                <Route path="/requests" element={<Requests />} />
+
+
+
+                <Route path="/requests/" element={<Requests />} >
+                    <Route index element={<RequestComponent />} />
+                    <Route path=":requestId/" element={<RequestDetail />}>
+                        <Route index element={<RequestInfoComponent />} />
+                        <Route
+                            path="docs"
+                            element={<DocumentComponent />}
+                        />
+                    </Route>
+                </Route>
+                
+                
 
                 <Route path="/users/" element={<Users />}>
                     <Route index element={<UserComponent />} />

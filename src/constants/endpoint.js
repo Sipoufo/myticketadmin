@@ -7,3 +7,6 @@ export const ResetPasswordEndpoint = () => URL + "/api/auth/resetPassword";
 
 // Organizer Request
 export const OrganizerRequest_EndPoint = (pageNumber, dataSize) => URL + "/api/requestOrganizer/" + pageNumber + "/" + dataSize;
+
+//Image File
+export const Image_EndPoint = (imageName) => URL + "/api/show/" + imageName;
