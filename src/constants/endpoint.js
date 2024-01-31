@@ -9,7 +9,7 @@ export const ResetPasswordEndpoint = () => URL + "/api/auth/resetPassword";
 export const OrganizerRequest_EndPoint = (pageNumber, dataSize) => URL + "/api/requestOrganizer/" + pageNumber + "/" + dataSize;
 
 // Resole Organizer Request
-export const ResolveOR_EndPoint = (requestId) => URL + "/api/requestOrganizer/resolveRequest/" + requestId;
+export const ResolveOganizerR_EndPoint = (requestId) => URL + "/api/requestOrganizer/resolveRequest/" + requestId;
 
 //Image File
 export const Image_EndPoint = (imageName) => URL + "/api/show/" + imageName;
