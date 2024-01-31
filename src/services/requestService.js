@@ -38,3 +38,37 @@ export const FetchAllRequests = async (pageNumber, dataSize) => {
             }
         });
 };
+
+export const ResoleRequest = async (requestId) => {
+    if (!VerifyToken()) {
+        window.location.replace("/");
+    }
+    return axios
+        .get(OrganizerRequest_EndPoint(requestId), data,{
+            headers,
+        })
+        .then((response) => {
+            return {
+                isError: false,
+                message: null,
+                data: response.data,
+            };
+        })
+        .catch((e) => {
+            if (!e.response) {
+                RemoveItems();
+                window.location.replace("/error");
+            }
+            if (e.response["status"] !== 400) {
+                RemoveItems();
+                window.location.replace("/error");
+            } else {
+                return {
+                    data: null,
+                    isError: true,
+                    code: e.response.status,
+                    message: e.response.data["message"],
+                };
+            }
+        });
+};
