@@ -2,10 +2,7 @@ import React, { useEffect, useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { IoIosArrowDown } from "react-icons/io";
 import PaginationWidget from "../../widgets/paginationWidget";
-import { BlockUserService, 
-    // FetchAllUsersService, FetchUsersInfoService, SearchUserService 
-} from "../../services/userService";
-import { FetchAllRequests } from "../../services/requestService";
+import { FetchAllRequests, ResolveRequest } from "../../services/requestService";
 import LoadingComponent from "../../components/loadingComponent";
 
 const RequestComponent = () => {
@@ -63,9 +60,13 @@ const RequestComponent = () => {
     // };
 
 
-    const blockUserById = async (userId, block) => {
-        await BlockUserService(false, userId, block);
-    };
+    const resolveOrganizerRequest = async (requestId, isAccepted) => {
+        const data = {
+            "isAccepted": isAccepted,
+            "message" : "Okay",
+        };
+        await ResolveRequest(requestId, data);
+    }
 
     useEffect(() => {
         fetchAllORequests(pageNumber, pageSize);
@@ -260,12 +261,12 @@ const RequestComponent = () => {
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap w-2/12">
                                             {request.accepted ? (
-                                                <span className="px-3 py-1 rounded-lg bg-rose-500 text-white">
-                                                    Not Approved
-                                                </span>
-                                            ) : (
                                                 <span className="px-3 py-1 rounded-lg bg-green-500 text-white">
                                                     Approved
+                                                </span>
+                                            ) : (
+                                                <span className="px-3 py-1 rounded-lg bg-rose-500 text-white">
+                                                    Not Approved
                                                 </span>
                                             )}
                                         </td>
@@ -277,10 +278,10 @@ const RequestComponent = () => {
                                                 Consult
                                             </a>
                                             <button
-                                                className={`${request.accepted ? "text-green-600" : "text-red-600"} font-medium hover:underline ms-3`}
-                                                onClick={() => blockUserById(request.requestOrganiserId, !request.accepted )}
+                                                className={`${!request.accepted ? "text-green-600" : "text-red-600"} font-medium hover:underline ms-3`}
+                                                onClick={() => resolveOrganizerRequest(request.requestOrganiserId, !request.accepted )}
                                             >
-                                                {request.accepted ? "Approved" : "Not Approved"}
+                                                {!request.accepted ? "Approve" : "Not Approve"}
                                             </button>
                                         </td>
                                     </tr>
