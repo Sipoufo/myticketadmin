@@ -266,7 +266,7 @@ const RequestComponent = () => {
                                                 </span>
                                             ) : (
                                                 <span className="px-3 py-1 rounded-lg bg-rose-500 text-white">
-                                                    Not Approved
+                                                    Disapproved
                                                 </span>
                                             )}
                                         </td>
@@ -281,7 +281,7 @@ const RequestComponent = () => {
                                                 className={`${!request.accepted ? "text-green-600" : "text-red-600"} font-medium hover:underline ms-3`}
                                                 onClick={() => resolveOrganizerRequest(request.requestOrganiserId, !request.accepted )}
                                             >
-                                                {!request.accepted ? "Approve" : "Not Approve"}
+                                                {!request.accepted ? "Approve" : "Disapprove"}
                                             </button>
                                         </td>
                                     </tr>
