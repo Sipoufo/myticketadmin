@@ -39,7 +39,7 @@ export const FetchAllRequests = async (pageNumber, dataSize) => {
         });
 };
 
-export const ResoleRequest = async (requestId) => {
+export const ResoleRequest = async (requestId, data) => {
     if (!VerifyToken()) {
         window.location.replace("/");
     }
