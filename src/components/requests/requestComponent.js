@@ -62,7 +62,7 @@ const RequestComponent = () => {
 
     const resolveOrganizerRequest = async (requestId, isAccepted) => {
         const data = {
-            "isAccepted": isAccepted,
+            "accepted": isAccepted,
             "message" : "Okay",
         };
         await ResolveRequest(requestId, data);
