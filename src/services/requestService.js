@@ -1,4 +1,4 @@
-import { OrganizerRequest_EndPoint } from "../constants/endpoint";
+import { OrganizerRequest_EndPoint, ResolveOganizerR_EndPoint } from "../constants/endpoint";
 import axios from "axios";
 import { GetToken, RemoveItems } from "./tokenService";
 import { VerifyToken } from "./tokenVerification";
@@ -39,20 +39,16 @@ export const FetchAllRequests = async (pageNumber, dataSize) => {
         });
 };
 
-export const ResoleRequest = async (requestId, data) => {
+export const ResolveRequest = async (requestId, data) => {
     if (!VerifyToken()) {
         window.location.replace("/");
     }
     return axios
-        .get(OrganizerRequest_EndPoint(requestId), data,{
+        .put(ResolveOganizerR_EndPoint(requestId), data,{
             headers,
         })
         .then((response) => {
-            return {
-                isError: false,
-                message: null,
-                data: response.data,
-            };
+            window.location.reload();
         })
         .catch((e) => {
             if (!e.response) {
